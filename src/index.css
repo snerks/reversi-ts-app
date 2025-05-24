@@ -1,12 +1,18 @@
 :root {
+  --reversi-bg: #242424;
+  --reversi-board: #197d2b;
+  --reversi-cell: #249c3a;
+  --reversi-cell-valid: #3fcf5a;
+  --reversi-black: #222;
+  --reversi-white: #fff;
+  --reversi-text: #fff;
+  --reversi-ui-bg: #222;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: var(--reversi-text);
+  background-color: var(--reversi-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,6 +34,23 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--reversi-bg);
+  color: var(--reversi-text);
+}
+
+.App {
+  background: var(--reversi-ui-bg);
+  color: var(--reversi-text);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #0004;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+h1,
+h2 {
+  color: var(--reversi-text);
 }
 
 h1 {
