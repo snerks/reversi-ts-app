@@ -43,8 +43,8 @@ body {
   color: var(--reversi-text);
   border-radius: 12px;
   box-shadow: 0 4px 24px #0004;
-  padding: 2rem;
-  margin: 2rem auto;
+  /* padding: 2rem;
+  margin: 2rem auto; */
   max-width: 600px;
 }
 

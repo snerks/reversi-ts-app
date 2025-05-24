@@ -103,6 +103,27 @@ function App() {
     applyTheme(theme);
   }, [theme]);
 
+  // Load preferences from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('reversi-theme');
+    const savedDifficulty = localStorage.getItem('reversi-difficulty');
+    const savedPlayComputer = localStorage.getItem('reversi-playComputer');
+    if (savedTheme === 'light' || savedTheme === 'dark') setTheme(savedTheme);
+    if (savedDifficulty && ['0', '1', '2'].includes(savedDifficulty)) setDifficulty(Number(savedDifficulty));
+    if (savedPlayComputer === 'none' || savedPlayComputer === 'B' || savedPlayComputer === 'W') setPlayComputer(savedPlayComputer);
+  }, []);
+
+  // Save preferences to localStorage when changed
+  useEffect(() => {
+    localStorage.setItem('reversi-theme', theme);
+  }, [theme]);
+  useEffect(() => {
+    localStorage.setItem('reversi-difficulty', String(difficulty));
+  }, [difficulty]);
+  useEffect(() => {
+    localStorage.setItem('reversi-playComputer', playComputer);
+  }, [playComputer]);
+
   const validMoves = getValidMoves(board, currentPlayer);
   const { B, W } = countPieces(board);
 
@@ -140,7 +161,7 @@ function App() {
 
   return (
     <div className="App" style={{ background: 'var(--reversi-bg)', color: 'var(--reversi-text)', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8, marginTop: 8 }}>
         <button
           style={{ background: 'var(--reversi-ui-bg)', color: 'var(--reversi-text)', border: '1px solid #888', borderRadius: 6, padding: '4px 12px', cursor: 'pointer' }}
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
@@ -148,28 +169,31 @@ function App() {
           Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
         </button>
       </div>
-      <h1>Reversi</h1>
+      {/* <h1>Reversi</h1> */}
       <div style={{ marginBottom: 16 }}>
         <span style={{ marginRight: 16 }}>Current Player: <span style={{ color: currentPlayer === 'B' ? '#222' : '#fff', background: currentPlayer === 'B' ? '#fff' : '#222', borderRadius: '50%', padding: '0 8px' }}>{currentPlayer}</span></span>
         <span style={{ marginRight: 16 }}>Black: {B}</span>
         <span style={{ marginRight: 16 }}>White: {W}</span>
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label style={{ marginRight: 8 }}>Play against computer:</label>
-        <select value={playComputer} onChange={e => setPlayComputer(e.target.value as 'none' | 'B' | 'W')}>
+        <label style={{ marginRight: 8 }}>Mode:</label>
+        <select value={playComputer} onChange={e => setPlayComputer(e.target.value as 'none' | 'B' | 'W')} style={{ fontSize: '1.2rem' }}>
           <option value="none">None (2 Players)</option>
           <option value="B">Computer as Black</option>
           <option value="W">Computer as White</option>
         </select>
         {playComputer !== 'none' && (
-          <span style={{ marginLeft: 16 }}>
-            <label style={{ marginRight: 8 }}>Difficulty:</label>
-            <select value={difficulty} onChange={e => setDifficulty(Number(e.target.value))}>
-              {DIFFICULTY_LEVELS.map((d, i) => (
-                <option value={i} key={d.label}>{d.label}</option>
-              ))}
-            </select>
-          </span>
+          <div style={{ marginTop: 1 }}>
+            <br />
+            <span style={{ marginLeft: 16 }}>
+              <label style={{ marginRight: 8 }}>Difficulty:</label>
+              <select value={difficulty} onChange={e => setDifficulty(Number(e.target.value))} style={{ fontSize: '1.2rem' }}>
+                {DIFFICULTY_LEVELS.map((d, i) => (
+                  <option value={i} key={d.label}>{d.label}</option>
+                ))}
+              </select>
+            </span>
+          </div>
         )}
       </div>
       <BoardComponent board={board} validMoves={validMoves} onCellClick={handleCellClick} />
