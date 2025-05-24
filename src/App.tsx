@@ -161,12 +161,13 @@ function App() {
 
   return (
     <div className="App" style={{ background: 'var(--reversi-bg)', color: 'var(--reversi-text)', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8, marginTop: 8 }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8, marginTop: 8, marginLeft: 8 }}>
         <button
           style={{ background: 'var(--reversi-ui-bg)', color: 'var(--reversi-text)', border: '1px solid #888', borderRadius: 6, padding: '4px 12px', cursor: 'pointer' }}
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
-          Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+          {/* Switch to */}
+          {theme === 'light' ? 'Dark' : 'Light'} Theme
         </button>
       </div>
       {/* <h1>Reversi</h1> */}
@@ -177,7 +178,7 @@ function App() {
       </div>
       <div style={{ marginBottom: 16 }}>
         <label style={{ marginRight: 8 }}>Mode:</label>
-        <select value={playComputer} onChange={e => setPlayComputer(e.target.value as 'none' | 'B' | 'W')} style={{ fontSize: '1.2rem' }}>
+        <select value={playComputer} onChange={e => setPlayComputer(e.target.value as 'none' | 'B' | 'W')} style={{ fontSize: '1.2rem' }} title='Mode'>
           <option value="none">None (2 Players)</option>
           <option value="B">Computer as Black</option>
           <option value="W">Computer as White</option>
@@ -197,13 +198,15 @@ function App() {
         )}
       </div>
       <BoardComponent board={board} validMoves={validMoves} onCellClick={handleCellClick} />
-      {gameOver && (
-        <div style={{ marginTop: 16 }}>
-          <h2>Game Over</h2>
-          <p>{B === W ? 'Draw!' : B > W ? 'Black wins!' : 'White wins!'}</p>
-          <button onClick={handleRestart}>Restart</button>
-        </div>
-      )}
+      <div style={{ marginTop: 3 }}>
+        {gameOver && (
+          <>
+            <h2>Game Over</h2>
+            <p>{B === W ? 'Draw!' : B > W ? 'Black wins!' : 'White wins!'}</p>
+          </>
+        )}
+        <button onClick={handleRestart}>Restart</button>
+      </div>
     </div>
   );
 }
